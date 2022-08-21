@@ -1,20 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useEffect, useCallback } from 'react'
+import { SafeAreaView } from 'react-native'
+
+import { NavigationContainer } from '@react-navigation/native'
+
+import { ThemeProvider } from './src/context/theme-context'
+
+import { useFonts } from 'expo-font'
+import fonts from './src/styles/fonts'
+
+import * as SplashScreen from 'expo-splash-screen'
+import MainRoutes from './src/routes/MainRoutes'
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  let [fontsLoaded] = useFonts(fonts)
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync()
+    }
+
+    if (fontsLoaded) {
+      SplashScreen.hideAsync()
+    }
+    
+    prepare()
+  }, [fontsLoaded])
+
+  if (!fontsLoaded) {
+    return null
+  }
+
+  return (
+    <ThemeProvider>
+        <NavigationContainer>
+          <MainRoutes />
+        </NavigationContainer>
+    </ThemeProvider>
+  )
+}
