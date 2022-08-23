@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     minHeight: '94%',
     paddingHorizontal: 10,
     paddingVertical: 30,
+    justifyContent: 'center',
   },
   footer: {
     flex: 0.1,

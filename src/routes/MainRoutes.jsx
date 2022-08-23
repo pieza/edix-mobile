@@ -4,6 +4,7 @@ import { useTheme } from '../context/theme-context'
 
 import Navbar from '../components/shared/Navbar'
 import TourScreen from '../screens/TourScreen'
+import LoginScreen from '../screens/LoginScreen'
 
 
 const Stack = createNativeStackNavigator()
@@ -21,8 +22,9 @@ const MainRoutes = () => {
         headerTitle: props => <Navbar {...props}/>
       }}>
 
+      <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Tour" component={TourScreen}/>
-      {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
+      
       
     </Stack.Navigator>
   )
