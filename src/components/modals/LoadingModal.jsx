@@ -16,7 +16,7 @@ const LoadingModal = props => {
         setIsLoading(false)
       }}>
         <View style={styles.container}>
-          <Image style={styles.image} source={require('../../../assets/images/loading.gif')} />
+          <Image style={styles.image} source={require('../../../assets/images/loading_2.gif')} />
         </View>
     </Modal>
   )

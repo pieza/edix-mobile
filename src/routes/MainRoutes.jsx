@@ -25,7 +25,6 @@ const MainRoutes = () => {
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Tour" component={TourScreen}/>
       
-      
     </Stack.Navigator>
   )
 }
