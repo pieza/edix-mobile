@@ -3,6 +3,16 @@ import { useTheme } from "../../context/theme-context"
 import Loading from "../utils/Loading"
 import EdictCard from "./EdictCard"
 
+const Header = props => {
+  const theme = useTheme()
+
+  return (
+    <View style={styles.header}>
+      <Text style={styles.headerText}>{props.children}</Text>
+    </View>
+  )
+}
+
 const EdictsContainer = props => {
   const theme = useTheme()
 

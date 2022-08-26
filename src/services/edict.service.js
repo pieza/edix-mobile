@@ -1,13 +1,20 @@
 import axios from 'axios'
 import environment from '../environment'
+import authService from './auth.service'
 
 class EdictService {
   constructor() {
-    this.url = environment.API_URL
+    this.url = `${environment.API_URL}/Property`
   }
 
-  async find() {
-    return await axios.get(`${this.url}/edicts`)
+  getAuthHeaders() {
+    return authService.getAuthHeaders()
+  }
+
+  async getPropertiesOnTour() {
+    return await axios.get(`${this.url}/GetPropertiesOnTour`, {
+      headers: await this.getAuthHeaders()
+    })
   }
 }
 

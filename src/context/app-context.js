@@ -5,38 +5,38 @@ const AppContext = createContext()
 
 export const AppProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false)
-  const [isModalVisible, setIsModalVisible] = useState(false)
-  const [modalType, setModalType] = useState('')
-  const [modalTitle, setModalTitle] = useState('')
-  const [modalBody, setModalBody] = useState('')
-  const [modalButtonText, setModalButtonText] = useState('')
-  const [modalCallback, setModalCallback] = useState(null) 
+  const [isAlertVisible, setIsAlertVisible] = useState(false)
+  const [alertType, setAlertType] = useState('')
+  const [alertTitle, setAlertTitle] = useState('')
+  const [alertBody, setAlertBody] = useState('')
+  const [alertButtonText, setAlertButtonText] = useState('')
+  const [alertCallback, setAlertCallback] = useState(null) 
 
-  const showModal = ({ type, title, body, buttonText, callback }) => {
-    setModalType(type)
-    setModalTitle(title)
-    setModalBody(body)
-    setModalButtonText(buttonText)
-    setModalCallback(() => callback)
-    setTimeout(()=> setIsModalVisible(true), Platform.OS === "ios" ? 1000 : 0) // weird fix for ios
+  const showAlert = ({ type, title, body, buttonText, callback }) => {
+    setAlertType(type)
+    setAlertTitle(title)
+    setAlertBody(body)
+    setAlertButtonText(buttonText)
+    setAlertCallback(() => callback)
+    setTimeout(()=> setIsAlertVisible(true), Platform.OS === "ios" ? 1000 : 0) // weird fix for ios
   }
 
-  const hideModal = () => {
-    setIsModalVisible(false)
+  const hideAlert = () => {
+    setIsAlertVisible(false)
   }
 
   const context = {
-    showModal,
-    hideModal,
-    isModalVisible,
+    showAlert,
+    hideAlert,
+    isAlertVisible,
     isLoading,
     setIsLoading,
-    modalContent: {
-      type: modalType,
-      title: modalTitle,
-      body: modalBody,
-      buttonText: modalButtonText,
-      callback: modalCallback
+    alertContent: {
+      type: alertType,
+      title: alertTitle,
+      body: alertBody,
+      buttonText: alertButtonText,
+      callback: alertCallback
     }
   }
 

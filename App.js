@@ -4,17 +4,22 @@ import { ThemeProvider } from './src/context/theme-context'
 
 import MainRoutes from './src/routes/MainRoutes'
 import { AppProvider } from './src/context/app-context'
-import LoadingModal from './src/components/modals/LoadingModal'
+import LoadingModal from './src/components/modals/util/LoadingModal'
+import { AuthProvider } from './src/context/auth-context'
+import AlertModal from './src/components/modals/util/AlertModal'
 
 export default function App() {
   return (
     <ThemeProvider>
-      <AppProvider>
-        <NavigationContainer>
-          <MainRoutes />
-          <LoadingModal />
-        </NavigationContainer>
-      </AppProvider>
+      <AuthProvider>
+        <AppProvider>
+          <NavigationContainer>
+            <MainRoutes />
+            <AlertModal />
+            <LoadingModal />
+          </NavigationContainer>
+        </AppProvider>
+      </AuthProvider>
     </ThemeProvider>
   )
 }

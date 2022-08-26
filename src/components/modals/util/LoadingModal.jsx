@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, Modal, StyleSheet, View } from 'react-native'
-import { useApp } from '../../context/app-context'
+import { useApp } from '../../../context/app-context'
 
 const LoadingModal = props => {
   const app = useApp()
@@ -16,7 +16,7 @@ const LoadingModal = props => {
         setIsLoading(false)
       }}>
         <View style={styles.container}>
-          <Image style={styles.image} source={require('../../../assets/images/loading_2.gif')} />
+          <Image style={styles.image} source={require('../../../../assets/images/loading_2.gif')} />
         </View>
     </Modal>
   )

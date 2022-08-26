@@ -1,31 +1,27 @@
 import { useEffect, useState } from 'react'
-import SweetAlert from 'react-native-sweet-alert'
+import { useApp } from '../../context/app-context'
 
 import edictService from '../../services/edict.service'
 
 const useTourEdicts = () => {
+  const app = useApp()
   const [edicts, setEdicts] = useState([])
   const [isFetching, setIsFetching] = useState(true)
 
   const fetchEdicts = () => {
     setIsFetching(true)
-    edictService.find()
+    edictService.getPropertiesOnTour()
       .then(result => {
         setEdicts(result.data)
       })
       .catch(err => {
         console.error(err)
-        SweetAlert.showAlertWithOptions({
-          title: '',
-          subTitle: '',
-          confirmButtonTitle: 'OK',
-          confirmButtonColor: '#000',
-          otherButtonTitle: 'Cancel',
-          otherButtonColor: '#dedede',
-          style: 'success',
-          cancellable: true
-        },
-        callback => console.log('callback'))
+        app.showAlert({
+          type: 'error',
+          title: "Error",
+          body: err.message || "Ocurrio un error.",
+          buttonText: "Ok"
+        })
         setEdicts([])
       })
       .finally(() => {
@@ -37,7 +33,6 @@ const useTourEdicts = () => {
     fetchEdicts()
   }, [])
 
-  console.log(edicts)
   return { edicts, isFetching, fetchEdicts }
 }
 

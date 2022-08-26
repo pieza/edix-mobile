@@ -9,6 +9,7 @@ export const colors = {
     white:          '#FFFFFF',
     black:          '#000000',
     background:     '#D6DEE1',
+    text:           '#000000',
     outline:        '#E6EBEF',
    
   },

@@ -1,14 +1,44 @@
+import { useState } from 'react'
 import { StyleSheet, View, Image } from 'react-native'
+
 import { useTheme } from '../../context/theme-context'
+import { useApp } from '../../context/app-context'
+import { useAuth } from '../../context/auth-context'
+import { useNavigation } from '@react-navigation/native'
 
 import { TextInput, Text } from '@react-native-material/core'
 import { FontAwesome } from '@expo/vector-icons'
 import Button from '../buttons/Button'
 
 const LoginForm = props => {
+  const app = useApp()
+  const auth = useAuth()
   const theme = useTheme()
+  const navigation = useNavigation()
+
   const { style } = props
 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const submit = async () => {
+    app.setIsLoading(true)
+    const result = await auth.login(username, password)
+    console.log("result:", result)
+    app.setIsLoading(false)
+
+    if(!result || result.error) {
+      app.showAlert({
+        type: 'error',
+        title: "Error",
+        body: result.error || "Ocurrio un error.",
+        buttonText: "Ok"
+      })
+    } else {
+      navigation.navigate('Tour')
+    }
+  }
+  
   return (
     <View
       {...props}
@@ -22,8 +52,10 @@ const LoginForm = props => {
         style={styles.input}
         label='Usuario'
         variant='standard'
+        value={username}
+        onChangeText={text => {setUsername(text)}}
         trailing={props => (
-          <FontAwesome name="user-circle" color={theme.black} {...props} />
+          <FontAwesome name="user-circle" {...props} color={theme.text}  />
         )}
       />
 
@@ -32,12 +64,14 @@ const LoginForm = props => {
         label='Contraseña'
         variant='standard'
         secureTextEntry={true}
+        value={password}
+        onChangeText={text => {setPassword(text)}} 
         trailing={props => (
-          <FontAwesome name="lock" color={theme.black} {...props} />
+          <FontAwesome name="lock" {...props} color={theme.black}  />
         )}
       />
 
-      <Button style={styles.button} icon="sign-in" color={theme.success}>Ingresar</Button>
+      <Button style={styles.button} icon="sign-in" color={theme.success} onPress={submit}>Ingresar</Button>
     </View>
   )
 }
