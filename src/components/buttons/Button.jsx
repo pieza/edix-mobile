@@ -29,10 +29,12 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
+    paddingHorizontal: 15,
     height: 56,
     borderRadius: 32,
+    shadowOffset: { width: 0, height: 0 },   
+    shadowOpacity: 0.2,  
+    shadowRadius: 6
   },
   icon: {
     paddingRight: 12

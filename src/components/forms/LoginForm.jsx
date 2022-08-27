@@ -24,7 +24,7 @@ const LoginForm = props => {
   const submit = async () => {
     app.setIsLoading(true)
     const result = await auth.login(username, password)
-    console.log("result:", result)
+
     app.setIsLoading(false)
 
     if(!result || result.error) {

@@ -1,7 +1,9 @@
-import { RefreshControl, ScrollView, StyleSheet, View } from "react-native"
-import { useTheme } from "../../context/theme-context"
-import Loading from "../utils/Loading"
-import EdictCard from "./EdictCard"
+import { useState } from 'react'
+import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
+import { useTheme } from '../../context/theme-context'
+import EdictDetailModal from '../modals/edict/EdictDetailModal'
+import Loading from '../utils/Loading'
+import EdictCard from './EdictCard'
 
 const Header = props => {
   const theme = useTheme()
@@ -18,6 +20,15 @@ const EdictsContainer = props => {
 
   const { style, edicts, isLoading = false, onRefresh = () => {} } = props
 
+  const [isModalVisible, setIsModalVisible] = useState(false)
+
+  const [selectedEdict, setSelectedEdict] = useState(null)
+
+  const onEdictPress = edict => {
+    setSelectedEdict(edict)
+    setIsModalVisible(true)
+  }
+
   return (
     <ScrollView
       {...props}
@@ -29,13 +40,14 @@ const EdictsContainer = props => {
         />
       }
     >
-      
       <View style={styles.list}>
           <Loading isVisible={isLoading}/>
           { edicts && edicts.length > 0 ? 
-            edicts.map(edict => <EdictCard style={styles.card} key={edict.id} edict={edict} />) 
+            edicts.map(edict => <EdictCard style={styles.card} key={edict.id} edict={edict} onPress={() => onEdictPress(edict)}/>) 
           : null }
       </View>
+
+      <EdictDetailModal isVisible={isModalVisible} setIsVisible={setIsModalVisible} edict={selectedEdict}/>
     </ScrollView>
   )
 }
@@ -48,8 +60,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     shadowOffset: { width: 0, height: 8 },   
     shadowOpacity: 0.2,  
-    shadowRadius: 6,  
-    elevation: 20
+    shadowRadius: 6
   },
   list: {
     flex: 1,

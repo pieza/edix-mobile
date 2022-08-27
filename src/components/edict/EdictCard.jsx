@@ -5,6 +5,7 @@ import { useTheme } from '../../context/theme-context'
 
 import React from 'react'
 import CircleButton from '../buttons/CircleButton'
+import StringUtils from '../../utils/string.utils'
 
 const EdictTitle = props => {
   const theme = useTheme()
@@ -14,18 +15,6 @@ const EdictTitle = props => {
       <Text variant='h5' color={theme.white}>{children}</Text>
     </View>
   )
-}
-
-function toMoneyFormat(value) {
-  if(!value) return 0
-  return value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
-}
-
-function toDateString(value) {
-  if(!value) return ''
-  let date = new Date(value)
-  if(!date) return ''
-  return date.toLocaleDateString('en-us', { year:"numeric", month:"short", day:"numeric"})
 }
 
 const EdictCard = props => {
@@ -38,7 +27,7 @@ const EdictCard = props => {
       {...props}
       style={StyleSheet.flatten([styles.card, { backgroundColor: theme.white }, style])}>
 
-        <EdictTitle>₡{toMoneyFormat(edict?.basePrice)}</EdictTitle>
+        <EdictTitle>₡{StringUtils.toMoneyFormat(edict?.basePrice)}</EdictTitle>
 
         <View style={styles.textContainer}>
           <FontAwesome5 style={styles.textIcon} name='map-marker-alt' size={20} color={theme.text} />
@@ -47,14 +36,14 @@ const EdictCard = props => {
         <View style={styles.textContainer}>
           <View style={styles.textContainer}> 
             <FontAwesome5 style={styles.textIcon} name='calendar-alt' size={20} color={theme.text} />
-            <Text variant='body1' color={theme.text}>{toDateString(edict?.auctionDate)}</Text>
+            <Text variant='body1' color={theme.text}>{StringUtils.toDateString(edict?.auctionDate)}</Text>
           </View>
           <View style={styles.textContainer}> 
             <FontAwesome5 style={styles.textIcon} name='ruler-horizontal' size={20} color={theme.text} />
             <Text variant='body1' color={theme.text}>{edict?.size} m2</Text>
           </View>
         </View>
-        <CircleButton icon="check" fontColor={theme.success} border/>
+        <CircleButton style={styles.button} icon="check" fontColor={theme.success} border/>
     </TouchableOpacity>
   )
 }
@@ -68,7 +57,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
     alignItems: 'center',
-    shadowOffset: { width: 0, height: 8 },   
+    shadowOffset: { width: 0, height: 0 },   
     shadowOpacity: 0.2,  
     shadowRadius: 6
   },
@@ -91,6 +80,9 @@ const styles = StyleSheet.create({
   },
   textIcon: {
     marginRight: 5
+  },
+  button: {
+    marginTop: 15,
   }
 })
 
