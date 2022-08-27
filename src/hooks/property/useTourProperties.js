@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react'
 import { useApp } from '../../context/app-context'
 
-import edictService from '../../services/edict.service'
+import propertyService from '../../services/property.service'
 
-const useTourEdicts = () => {
+const useTourProperties = () => {
   const app = useApp()
-  const [edicts, setEdicts] = useState([])
+  const [properties, setProperties] = useState([])
   const [isFetching, setIsFetching] = useState(true)
 
-  const fetchEdicts = () => {
+  const fetchProperties = () => {
     setIsFetching(true)
-    edictService.getPropertiesOnTour()
+    propertyService.getPropertiesOnTour()
       .then(result => {
-        setEdicts(result.data)
+        setProperties(result.data)
       })
       .catch(err => {
         console.error(err)
@@ -22,7 +22,7 @@ const useTourEdicts = () => {
           body: err.message || "Ocurrio un error.",
           buttonText: "Ok"
         })
-        setEdicts([])
+        setProperties([])
       })
       .finally(() => {
         setIsFetching(false)
@@ -30,10 +30,10 @@ const useTourEdicts = () => {
   }
 
   useEffect(() => {
-    fetchEdicts()
+    fetchProperties()
   }, [])
 
-  return { edicts, isFetching, fetchEdicts }
+  return { properties, isFetching, fetchProperties }
 }
 
-export default useTourEdicts
+export default useTourProperties

@@ -2,7 +2,7 @@ import axios from 'axios'
 import environment from '../environment'
 import authService from './auth.service'
 
-class EdictService {
+class PropertyService {
   constructor() {
     this.url = `${environment.API_URL}/Property`
   }
@@ -16,6 +16,12 @@ class EdictService {
       headers: await this.getAuthHeaders()
     })
   }
+
+  async savePropertyChanges(property) {
+    return await axios.post(`${this.url}/SavePropertyChanges`, property, {
+      headers: await this.getAuthHeaders()
+    })
+  }
 }
 
-export default new EdictService()
+export default new PropertyService()

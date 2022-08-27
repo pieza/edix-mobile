@@ -7,7 +7,7 @@ import React from 'react'
 import CircleButton from '../buttons/CircleButton'
 import StringUtils from '../../utils/string.utils'
 
-const EdictTitle = props => {
+const PropertyTitle = props => {
   const theme = useTheme()
   const { style, children } = props
   return (
@@ -17,30 +17,30 @@ const EdictTitle = props => {
   )
 }
 
-const EdictCard = props => {
+const PropertyCard = props => {
   const theme = useTheme()
 
-  const { style, edict } = props
+  const { style, property } = props
 
   return (
     <TouchableOpacity 
       {...props}
       style={StyleSheet.flatten([styles.card, { backgroundColor: theme.white }, style])}>
 
-        <EdictTitle>₡{StringUtils.toMoneyFormat(edict?.basePrice)}</EdictTitle>
+        <PropertyTitle>₡{StringUtils.toMoneyFormat(property?.basePrice)}</PropertyTitle>
 
         <View style={styles.textContainer}>
           <FontAwesome5 style={styles.textIcon} name='map-marker-alt' size={20} color={theme.text} />
-          <Text variant='body1' color={theme.text}>{edict?.province}, {edict?.canton}</Text>
+          <Text variant='body1' color={theme.text}>{property?.province}, {property?.canton}</Text>
         </View>
         <View style={styles.textContainer}>
           <View style={styles.textContainer}> 
             <FontAwesome5 style={styles.textIcon} name='calendar-alt' size={20} color={theme.text} />
-            <Text variant='body1' color={theme.text}>{StringUtils.toDateString(edict?.auctionDate)}</Text>
+            <Text variant='body1' color={theme.text}>{StringUtils.toDateString(property?.auctionDate)}</Text>
           </View>
           <View style={styles.textContainer}> 
             <FontAwesome5 style={styles.textIcon} name='ruler-horizontal' size={20} color={theme.text} />
-            <Text variant='body1' color={theme.text}>{edict?.size} m2</Text>
+            <Text variant='body1' color={theme.text}>{property?.size} m2</Text>
           </View>
         </View>
         <CircleButton style={styles.button} icon="check" fontColor={theme.success} border/>
@@ -86,4 +86,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default EdictCard
+export default PropertyCard

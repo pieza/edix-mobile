@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
 import { useTheme } from '../../context/theme-context'
-import EdictDetailModal from '../modals/edict/EdictDetailModal'
+import PropertyDetailModal from '../modals/property/PropertyDetailModal'
 import Loading from '../utils/Loading'
-import EdictCard from './EdictCard'
+import PropertyCard from './PropertyCard'
 
 const Header = props => {
   const theme = useTheme()
@@ -15,17 +15,17 @@ const Header = props => {
   )
 }
 
-const EdictsContainer = props => {
+const PropertiesContainer = props => {
   const theme = useTheme()
 
-  const { style, edicts, isLoading = false, onRefresh = () => {} } = props
+  const { style, properties, isLoading = false, onRefresh = () => {} } = props
 
   const [isModalVisible, setIsModalVisible] = useState(false)
 
-  const [selectedEdict, setSelectedEdict] = useState(null)
+  const [selectedProperty, setSelectedProperty] = useState(null)
 
-  const onEdictPress = edict => {
-    setSelectedEdict(edict)
+  const onPropertyPress = property => {
+    setSelectedProperty(property)
     setIsModalVisible(true)
   }
 
@@ -42,12 +42,12 @@ const EdictsContainer = props => {
     >
       <View style={styles.list}>
           <Loading isVisible={isLoading}/>
-          { edicts && edicts.length > 0 ? 
-            edicts.map(edict => <EdictCard style={styles.card} key={edict.id} edict={edict} onPress={() => onEdictPress(edict)}/>) 
+          { properties && properties.length > 0 ? 
+            properties.map(property => <PropertyCard style={styles.card} key={property.id} property={property} onPress={() => onPropertyPress(property)}/>) 
           : null }
       </View>
 
-      <EdictDetailModal isVisible={isModalVisible} setIsVisible={setIsModalVisible} edict={selectedEdict}/>
+      <PropertyDetailModal isVisible={isModalVisible} setIsVisible={setIsModalVisible} property={selectedProperty}/>
     </ScrollView>
   )
 }
@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default EdictsContainer
+export default PropertiesContainer

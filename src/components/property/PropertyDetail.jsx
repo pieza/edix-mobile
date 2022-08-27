@@ -22,10 +22,10 @@ const ItemCard = props => {
   )
 }
 
-const EdictDetail = props => {
+const PropertyDetail = props => {
   const theme = useTheme()
 
-  const { style, edict } = props
+  const { style, property } = props
 
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false)
 
@@ -34,28 +34,28 @@ const EdictDetail = props => {
       <View style={StyleSheet.flatten([styles.container, { backgroundColor: theme.white }, style])}>
         <ItemCard style={styles.textCard} backgroundColor={theme.success}>
           <FontAwesome5 style={styles.icon} name="map-marker-alt" size={20} color={theme.white} />
-          <Text variant="body1" color={theme.white}>{edict.province}, {edict.canton}, {edict.district}</Text>
+          <Text variant="body1" color={theme.white}>{property.province}, {property.canton}, {property.district}</Text>
         </ItemCard>
 
         <ItemCard style={styles.textCard} backgroundColor={theme.white}>
           <FontAwesome5 style={styles.icon} name="calendar-alt" size={20} color={theme.text} />
-          <Text variant="body1" color={theme.text}>{StringUtils.toFullDateString(edict.auctionDate)}</Text>
+          <Text variant="body1" color={theme.text}>{StringUtils.toFullDateString(property.auctionDate)}</Text>
         </ItemCard>
 
         <View style={styles.row}>
           <ItemCard style={StyleSheet.flatten([styles.textCard, { marginRight: 2 }])} backgroundColor={theme.white}>
-            <Text variant="body1" color={theme.text}>₡{StringUtils.toMoneyFormat(edict?.basePrice)}</Text>
+            <Text variant="body1" color={theme.text}>₡{StringUtils.toMoneyFormat(property?.basePrice)}</Text>
           </ItemCard>
           <ItemCard style={StyleSheet.flatten([styles.textCard, { marginLeft: 2 }])} backgroundColor={theme.white}>
             <FontAwesome5 style={styles.icon} name="ruler-horizontal" size={20} color={theme.text} />
-            <Text variant="body1" color={theme.text}>{edict.size} m2</Text>
+            <Text variant="body1" color={theme.text}>{property.size} m2</Text>
           </ItemCard>
         </View>
 
         <TouchableOpacity onPress={() => setIsNotesModalVisible(true)}>
           <ItemCard style={styles.notesCard} backgroundColor={theme.white}>
             <Text variant="h6" color={theme.text}>Notas</Text>
-            <Text variant="body1" color={theme.text}>{edict.notes}</Text>
+            <Text variant="body1" color={theme.text}>{property.notes}</Text>
           </ItemCard>
         </TouchableOpacity>
 
@@ -116,4 +116,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default EdictDetail
+export default PropertyDetail

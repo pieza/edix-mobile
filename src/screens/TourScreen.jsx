@@ -1,15 +1,15 @@
-import EdictsContainer from '../components/edict/EdictsContainer'
+import PropertiesContainer from '../components/property/PropertiesContainer'
 import Screen from '../components/layouts/Screen'
 
-import useTourEdicts from '../hooks/edict/useTourEdicts'
+import useTourProperties from '../hooks/property/useTourProperties'
 
 
 const TourScreen = () => {
-  const { edicts, isFetching, fetchEdicts } = useTourEdicts()
+  const { properties, isFetching, fetchProperties } = useTourProperties()
 
   return (
     <Screen>
-      <EdictsContainer edicts={edicts} isLoading={isFetching} onRefresh={fetchEdicts}/>
+      <PropertiesContainer properties={properties} isLoading={isFetching} onRefresh={fetchProperties}/>
     </Screen>
   )
 }

@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await authService.login(username, password)
       const loginData = response?.data?.loginData
-      console.log("loginData:", loginData)
+
       if(loginData) {
         await AsyncStorage.setItem('token', loginData.token)
         await AsyncStorage.setItem('userName', loginData.userName)

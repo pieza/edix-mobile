@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { StyleSheet, Modal, View, ScrollView } from 'react-native'
 import { useTheme } from '../../../context/theme-context'
-import EdictDetail from '../../edict/EdictDetail'
+import PropertyDetail from '../../property/PropertyDetail'
 import Button from '../../buttons/Button'
 import TextEditorModal from '../util/TextEditorModal'
 
-const EdictDetailModal = props => {
+const PropertyDetailModal = props => {
   const theme = useTheme()
 
-  const { style, onSave, isVisible, setIsVisible, edict } = props
+  const { style, onSave, isVisible, setIsVisible, property } = props
 
   const [isRawTextModalVisible, setIsRawTextModalVisible] = useState(false)
 
@@ -29,7 +29,7 @@ const EdictDetailModal = props => {
       <View style={styles.container}>
         <View style={StyleSheet.flatten([styles.content, { backgroundColor: theme.white }])}>
           <ScrollView style={styles.body}>
-            <EdictDetail style={styles.edictDetail} edict={edict} />
+            <PropertyDetail style={styles.propertyDetail} property={property} />
           </ScrollView>
 
           <View style={styles.footer}>
@@ -48,7 +48,7 @@ const EdictDetailModal = props => {
         </View>
       </View>
 
-      <TextEditorModal isVisible={isRawTextModalVisible} setIsVisible={setIsRawTextModalVisible} value={edict?.rawText}/>
+      <TextEditorModal isVisible={isRawTextModalVisible} setIsVisible={setIsRawTextModalVisible} value={property?.rawText}/>
     </Modal>
   )
 }
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  edictDetail: {
+  propertyDetail: {
     flex: 1
   },
   button: {
@@ -85,4 +85,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default EdictDetailModal
+export default PropertyDetailModal
