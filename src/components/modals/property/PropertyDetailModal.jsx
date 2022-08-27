@@ -27,7 +27,7 @@ const PropertyDetailModal = props => {
       }}
     >
       <View style={styles.container}>
-        <View style={StyleSheet.flatten([styles.content, { backgroundColor: theme.white }])}>
+        <View style={StyleSheet.flatten([styles.content, { backgroundColor: theme.white }, style])}>
           <ScrollView style={styles.body}>
             <PropertyDetail style={styles.propertyDetail} property={property} />
           </ScrollView>
