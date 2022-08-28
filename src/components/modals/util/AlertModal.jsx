@@ -2,19 +2,17 @@ import React from 'react'
 import { StyleSheet, Modal as RNModal, View } from 'react-native'
 
 import { Feather } from '@expo/vector-icons'
-import { Text } from '@react-native-material/core'
+import { Text, Button } from '@react-native-material/core'
 
 import { useApp } from '../../../context/app-context'
 import { useTheme } from '../../../context/theme-context'
-
-import Button from '../../buttons/Button'
 
 const AlertModal = props => {
   const theme = useTheme()
   const app = useApp()
 
   const { style } = props
-  const { isAlertVisible = true, hideAlert, alertContent } = app
+  const { isAlertVisible, hideAlert, alertContent } = app
   const { type, title, body, buttonText, callback } = alertContent
 
   const fontColor = theme.main_text
@@ -49,7 +47,6 @@ const AlertModal = props => {
   }
 
   return(
-
     <RNModal
       animationType="fade"
       transparent={true}
@@ -67,7 +64,7 @@ const AlertModal = props => {
           : null }
           <Text variant="h6" style={styles.title} color={fontColor}>{title}</Text>
           <Text variant="body1" style={styles.bodyText} color={fontColor} size="p2">{body}</Text>
-          <Button onPress={submit} color={theme.primary}>{buttonText}</Button>
+          <Button onPress={submit} color={theme.primary} tintColor={theme.white} title={buttonText} />
         </View>
       </View>
     </RNModal>

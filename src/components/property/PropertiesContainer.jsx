@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native'
 import { useTheme } from '../../context/theme-context'
-import PropertyDetailModal from '../modals/property/PropertyDetailModal'
 import Loading from '../utils/Loading'
 import PropertyCard from './PropertyCard'
 
@@ -17,16 +16,12 @@ const Header = props => {
 
 const PropertiesContainer = props => {
   const theme = useTheme()
+  const navigation = useNavigation()
 
   const { style, properties, isLoading = false, onRefresh = () => {} } = props
 
-  const [isModalVisible, setIsModalVisible] = useState(false)
-
-  const [selectedProperty, setSelectedProperty] = useState(null)
-
   const onPropertyPress = property => {
-    setSelectedProperty(property)
-    setIsModalVisible(true)
+    navigation.navigate('PropertyDetail', { property })
   }
 
   return (
@@ -46,8 +41,6 @@ const PropertiesContainer = props => {
             properties.map(property => <PropertyCard style={styles.card} key={property.id} property={property} onPress={() => onPropertyPress(property)}/>) 
           : null }
       </View>
-
-      <PropertyDetailModal isVisible={isModalVisible} setIsVisible={setIsModalVisible} property={selectedProperty}/>
     </ScrollView>
   )
 }
@@ -56,7 +49,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignSelf: 'center',
-    width: '90%',
+    width: '95%',
     borderRadius: 10,
     shadowOffset: { width: 0, height: 8 },   
     shadowOpacity: 0.2,  

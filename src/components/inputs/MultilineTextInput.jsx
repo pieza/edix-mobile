@@ -9,6 +9,7 @@ const MultilineTextInput = props => {
   return (
     <TextInput
       {...props}
+      blurOnSubmit={true}
       multiline
       style={StyleSheet.flatten([styles.input, { borderColor: theme.outline }, style])}
     />

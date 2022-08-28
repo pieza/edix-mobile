@@ -1,45 +1,37 @@
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, View, ScrollView } from 'react-native'
 import { useTheme } from '../../context/theme-context'
 
 import { Text } from '@react-native-material/core'
 import { FontAwesome5 } from '@expo/vector-icons'
 import StringUtils from '../../utils/string.utils'
-import CircleButton from '../buttons/CircleButton'
 import TextEditorModal from '../modals/util/TextEditorModal'
 import { useState } from 'react'
-
-const ItemCard = props => {
-  const theme = useTheme()
-
-  const { style, backgroundColor, children } = props
-
-  let _backgroundColor = backgroundColor ? backgroundColor : theme.white
-
-  return (
-    <View style={StyleSheet.flatten([styles.itemCard, { backgroundColor: _backgroundColor }, style])}>
-      {children}
-    </View>
-  )
-}
+import Button from '../buttons/Button'
+import useProperty from '../../hooks/property/useProperty'
+import ItemCard from './ItemCard'
+import MediaGalery from '../media/MediaGalery'
 
 const PropertyDetail = props => {
   const theme = useTheme()
 
-  const { style, property } = props
+  const { style, data } = props
+
+  const { property, setProperty, save } = useProperty(data)
 
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false)
+  const [isRawTextModalVisible, setIsRawTextModalVisible] = useState(false)
 
   return (
-    <>
-      <View style={StyleSheet.flatten([styles.container, { backgroundColor: theme.white }, style])}>
+    <View style={StyleSheet.flatten([styles.container, { backgroundColor: theme.white }, style])}>
+      <ScrollView style={styles.body}>
         <ItemCard style={styles.textCard} backgroundColor={theme.success}>
           <FontAwesome5 style={styles.icon} name="map-marker-alt" size={20} color={theme.white} />
-          <Text variant="body1" color={theme.white}>{property.province}, {property.canton}, {property.district}</Text>
+          <Text variant="body1" color={theme.white}>{property?.province}, {property?.canton}, {property?.district}</Text>
         </ItemCard>
 
         <ItemCard style={styles.textCard} backgroundColor={theme.white}>
           <FontAwesome5 style={styles.icon} name="calendar-alt" size={20} color={theme.text} />
-          <Text variant="body1" color={theme.text}>{StringUtils.toFullDateString(property.auctionDate)}</Text>
+          <Text variant="body1" color={theme.text}>{StringUtils.toFullDateString(property?.auctionDate)}</Text>
         </ItemCard>
 
         <View style={styles.row}>
@@ -48,35 +40,48 @@ const PropertyDetail = props => {
           </ItemCard>
           <ItemCard style={StyleSheet.flatten([styles.textCard, { marginLeft: 2 }])} backgroundColor={theme.white}>
             <FontAwesome5 style={styles.icon} name="ruler-horizontal" size={20} color={theme.text} />
-            <Text variant="body1" color={theme.text}>{property.size} m2</Text>
+            <Text variant="body1" color={theme.text}>{property?.size} m2</Text>
           </ItemCard>
         </View>
 
         <TouchableOpacity onPress={() => setIsNotesModalVisible(true)}>
           <ItemCard style={styles.notesCard} backgroundColor={theme.white}>
             <Text variant="h6" color={theme.text}>Notas</Text>
-            <Text variant="body1" color={theme.text}>{property.notes}</Text>
+            <Text variant="body1" color={theme.text}>{property?.notes}</Text>
           </ItemCard>
         </TouchableOpacity>
 
         <ItemCard style={styles.multimediaCard} backgroundColor={theme.white}>
-          <View style={styles.row}>
-            <CircleButton color={theme.primary} fontColor={theme.white} icon="camera" />
-            <CircleButton color={theme.primary} fontColor={theme.white} icon="video-camera" />
-
-            <CircleButton color={theme.success} fontColor={theme.white} icon="plus" />
-
-            <View>
-
-
-            </View>
-          </View>
-
+          <MediaGalery images={property?.images} videos={property?.videos}/>
         </ItemCard>
+      </ScrollView>
+
+      <View style={styles.footer}>
+        <Button
+          style={styles.button}
+          icon="eye"
+          color={theme.white}
+          fontColor={theme.text}
+          onPress={() => setIsRawTextModalVisible(true)}
+        >
+          Edicto
+        </Button>
+        <Button style={styles.button} color={theme.success} fontColor={theme.white} onPress={save}>Guardar</Button>
       </View>
 
-      <TextEditorModal isVisible={isNotesModalVisible} setIsVisible={setIsNotesModalVisible}/>
-    </>
+      <TextEditorModal 
+        isVisible={isRawTextModalVisible} 
+        setIsVisible={setIsRawTextModalVisible} 
+        value={property?.rawText} 
+        onSave={text => setProperty({ ...property, rawText: text })}
+      />
+      <TextEditorModal 
+        isVisible={isNotesModalVisible} 
+        setIsVisible={setIsNotesModalVisible} 
+        value={property?.notes}
+        onSave={text => setProperty({ ...property, notes: text })}
+      />
+    </View>
   )
 }
 
@@ -84,14 +89,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  itemCard: {
-    flex: 1,
-    width: '100%',
-    padding: 16,
-    borderRadius: 10,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.2,
-    shadowRadius: 6
+  body: {
+    flex: 0.8,
+    padding: 15,
+  },
+  footer: {
+    flex: 0.2,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+  },
+  propertyDetail: {
+    flex: 1
+  },
+  button: {
+    marginHorizontal: 2
   },
   textCard: {
     alignItems: 'center',
@@ -114,6 +127,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   }
 })
-
 
 export default PropertyDetail
