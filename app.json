@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Edix-Mobile",
-    "slug": "Edix-Mobile",
-    "version": "1.0.0",
+    "name": "Edix Tours",
+    "slug": "edix-tours",
+    "version": "0.1.11",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "light",
