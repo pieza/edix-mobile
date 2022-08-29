@@ -1,5 +1,6 @@
-import * as ImagePicker from 'expo-image-picker'
 import { StyleSheet } from 'react-native'
+import * as ImagePicker from 'expo-image-picker'
+import * as FileSystem from 'expo-file-system'
 import CircleButton from '../buttons/CircleButton'
 
 const MediaPickerButton = props => {
@@ -21,7 +22,15 @@ const MediaPickerButton = props => {
       return
     }
 
-    if(onPick) onPick(`data:image/jpeg;base64,${result.base64}`)  
+    let encodedFile = result.base64
+    let dataType = 'data:image/jpeg;base64,'
+
+    if(mediaTypes === ImagePicker.MediaTypeOptions.Videos) {
+      encodedFile = await FileSystem.readAsStringAsync(result.uri, { encoding: FileSystem.EncodingType.Base64 })
+      dataType = 'data:video/mp4;base64,'
+    }
+
+    if(onPick) onPick(`${dataType}${encodedFile}`)  
   }
 
   return (

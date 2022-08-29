@@ -9,13 +9,23 @@ class CloudinaryService {
     this.apiKey = environment.CLOUDINARY_API_KEY
   }
 
-  async uploadImage(file) {
-    return await axios.post(this.url, {
+  async uploadFile(file) {
+    return await axios.post(`${this.url}/upload`, {
       file,
       upload_preset: this.uploadPreset,
-      api_key: this.apiKey
+      api_key: this.apiKey,
+      resource_type: 'auto'
+    })
+  }
+
+  async deleteFile(file) {
+    return await axios.post(`${this.url}/destroy`, {
+      file,
+      upload_preset: this.uploadPreset,
+      api_key: this.apiKey,
+      resource_type: 'auto'
     })
   } 
 }
 
-export default new ImageService()
+export default new CloudinaryService()
