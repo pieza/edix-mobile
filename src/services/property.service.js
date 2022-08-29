@@ -11,6 +11,15 @@ class PropertyService {
     return authService.getAuthHeaders()
   }
 
+  async getProperty(edictId) {
+    return await axios.get(`${this.url}/GetProperty`, {
+      headers: await this.getAuthHeaders(),
+      params: {
+        edictId
+      }
+    })
+  }
+
   async getPropertiesOnTour() {
     return await axios.get(`${this.url}/GetPropertiesOnTour`, {
       headers: await this.getAuthHeaders()

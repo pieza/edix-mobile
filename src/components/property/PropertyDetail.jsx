@@ -10,74 +10,79 @@ import Button from '../buttons/Button'
 import useProperty from '../../hooks/property/useProperty'
 import ItemCard from './ItemCard'
 import MediaGalery from '../media/MediaGalery'
+import Loading from '../utils/Loading'
 
 const PropertyDetail = props => {
   const theme = useTheme()
 
-  const { style, data } = props
+  const { style, id } = props
 
-  const { property, setProperty, save } = useProperty(data)
+  const { property, setProperty, isFetching, save } = useProperty(id)
 
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false)
   const [isRawTextModalVisible, setIsRawTextModalVisible] = useState(false)
 
   return (
     <View style={StyleSheet.flatten([styles.container, { backgroundColor: theme.white }, style])}>
-      <ScrollView style={styles.body}>
-        <ItemCard style={styles.textCard} backgroundColor={theme.success}>
-          <FontAwesome5 style={styles.icon} name="map-marker-alt" size={20} color={theme.white} />
-          <Text variant="body1" color={theme.white}>{property?.province}, {property?.canton}, {property?.district}</Text>
-        </ItemCard>
+      <Loading isVisible={isFetching} />
+      { !isFetching && property ?
+        <>
+          <ScrollView style={styles.body}>
+            <ItemCard style={styles.textCard} backgroundColor={theme.success}>
+              <FontAwesome5 style={styles.icon} name="map-marker-alt" size={20} color={theme.white} />
+              <Text variant="body1" color={theme.white}>{property?.province}, {property?.canton}, {property?.district}</Text>
+            </ItemCard>
 
-        <ItemCard style={styles.textCard} backgroundColor={theme.white}>
-          <FontAwesome5 style={styles.icon} name="calendar-alt" size={20} color={theme.text} />
-          <Text variant="body1" color={theme.text}>{StringUtils.toFullDateString(property?.auctionDate)}</Text>
-        </ItemCard>
+            <ItemCard style={styles.textCard} backgroundColor={theme.white}>
+              <FontAwesome5 style={styles.icon} name="calendar-alt" size={20} color={theme.text} />
+              <Text variant="body1" color={theme.text}>{StringUtils.toFullDateString(property?.auctionDate)}</Text>
+            </ItemCard>
 
-        <View style={styles.row}>
-          <ItemCard style={StyleSheet.flatten([styles.textCard, { marginRight: 2 }])} backgroundColor={theme.white}>
-            <Text variant="body1" color={theme.text}>₡{StringUtils.toMoneyFormat(property?.basePrice)}</Text>
-          </ItemCard>
-          <ItemCard style={StyleSheet.flatten([styles.textCard, { marginLeft: 2 }])} backgroundColor={theme.white}>
-            <FontAwesome5 style={styles.icon} name="ruler-horizontal" size={20} color={theme.text} />
-            <Text variant="body1" color={theme.text}>{property?.size} m2</Text>
-          </ItemCard>
-        </View>
+            <View style={styles.row}>
+              <ItemCard style={StyleSheet.flatten([styles.textCard, { marginRight: 2 }])} backgroundColor={theme.white}>
+                <Text variant="body1" color={theme.text}>₡{StringUtils.toMoneyFormat(property?.basePrice)}</Text>
+              </ItemCard>
+              <ItemCard style={StyleSheet.flatten([styles.textCard, { marginLeft: 2 }])} backgroundColor={theme.white}>
+                <FontAwesome5 style={styles.icon} name="ruler-horizontal" size={20} color={theme.text} />
+                <Text variant="body1" color={theme.text}>{property?.size} m2</Text>
+              </ItemCard>
+            </View>
 
-        <TouchableOpacity onPress={() => setIsNotesModalVisible(true)}>
-          <ItemCard style={styles.notesCard} backgroundColor={theme.white}>
-            <Text variant="h6" color={theme.text}>Notas</Text>
-            <Text variant="body1" color={theme.text}>{property?.notes}</Text>
-          </ItemCard>
-        </TouchableOpacity>
+            <TouchableOpacity onPress={() => setIsNotesModalVisible(true)}>
+              <ItemCard style={styles.notesCard} backgroundColor={theme.white}>
+                <Text variant="h6" color={theme.text}>Notas</Text>
+                <Text variant="body1" color={theme.text}>{property?.notes}</Text>
+              </ItemCard>
+            </TouchableOpacity>
 
-        <ItemCard style={styles.multimediaCard} backgroundColor={theme.white}>
-          <MediaGalery images={property?.images} videos={property?.videos}/>
-        </ItemCard>
-      </ScrollView>
+            <ItemCard style={styles.multimediaCard} backgroundColor={theme.white}>
+              <MediaGalery images={property?.images} videos={property?.videos} setProperty={setProperty} />
+            </ItemCard>
+          </ScrollView>
 
-      <View style={styles.footer}>
-        <Button
-          style={styles.button}
-          icon="eye"
-          color={theme.white}
-          fontColor={theme.text}
-          onPress={() => setIsRawTextModalVisible(true)}
-        >
-          Edicto
-        </Button>
-        <Button style={styles.button} color={theme.success} fontColor={theme.white} onPress={save}>Guardar</Button>
-      </View>
-
-      <TextEditorModal 
-        isVisible={isRawTextModalVisible} 
-        setIsVisible={setIsRawTextModalVisible} 
-        value={property?.rawText} 
+          <View style={styles.footer}>
+            <Button
+              style={styles.button}
+              icon="eye"
+              color={theme.white}
+              fontColor={theme.text}
+              onPress={() => setIsRawTextModalVisible(true)}
+            >
+              Edicto
+            </Button>
+            <Button style={styles.button} color={theme.success} fontColor={theme.white} onPress={save}>Guardar</Button>
+          </View>
+        </>
+      : null}
+      <TextEditorModal
+        isVisible={isRawTextModalVisible}
+        setIsVisible={setIsRawTextModalVisible}
+        value={property?.rawText}
         onSave={text => setProperty({ ...property, rawText: text })}
       />
-      <TextEditorModal 
-        isVisible={isNotesModalVisible} 
-        setIsVisible={setIsNotesModalVisible} 
+      <TextEditorModal
+        isVisible={isNotesModalVisible}
+        setIsVisible={setIsNotesModalVisible}
         value={property?.notes}
         onSave={text => setProperty({ ...property, notes: text })}
       />

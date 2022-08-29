@@ -16,7 +16,7 @@ const MediaGalery = props => {
   const theme = useTheme()
   const [selectedMediaType, setSelectedMediaType] = useState(ImagePicker.MediaTypeOptions.Images)
 
-  const { style, setProperty, images = ['https://i.ytimg.com/vi/Nk2M7ISVB04/maxresdefault.jpg', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAw3Ufl1UTpD2SKfehMASlmAy2J-91_Hqovw&usqp=CAU'], videos = ['https://res.cloudinary.com/edica-cloud/video/upload/v1661742427/qh3r407h70xz3cynv51u.mov'] } = props
+  const { style, setProperty, images = [], videos = [] } = props
 
   const toggleMediaType = () => {
     setSelectedMediaType(selectedMediaType === ImagePicker.MediaTypeOptions.Images ? ImagePicker.MediaTypeOptions.Videos : ImagePicker.MediaTypeOptions.Images)
@@ -28,6 +28,11 @@ const MediaGalery = props => {
       const result = await cloudinaryService.uploadFile(file)
       const url = result?.data?.secure_url
       console.log(url)
+      if(selectedMediaType === ImagePicker.MediaTypeOptions.Images) {
+        setProperty(p => ({ ...p, images: [...p.images, { path: url}] }))
+      } else {
+        setProperty(p => ({ ...p, videos: [...p.videos, { path: url}] }))
+      }
       if (url) {
         app.showAlert({
           type: 'success',
@@ -87,11 +92,11 @@ const MediaGalery = props => {
 
       {selectedMediaType == ImagePicker.MediaTypeOptions.Images ?
         <ScrollView style={styles.tab}>
-          {images?.map(i => <ImageGaleryItem key={i} uri={i} />)}
+          {images?.map(i => <ImageGaleryItem key={i} uri={i.path} />)}
         </ScrollView>
         :
         <ScrollView style={styles.tab}>
-          {videos?.map(i => <VideoGaleryItem key={i} uri={i} />)}
+          {videos?.map(i => <VideoGaleryItem key={i} uri={i.path} />)}
         </ScrollView>
       }
     </View>

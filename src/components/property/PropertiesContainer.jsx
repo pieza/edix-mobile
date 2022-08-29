@@ -20,8 +20,8 @@ const PropertiesContainer = props => {
 
   const { style, properties, isLoading = false, onRefresh = () => {} } = props
 
-  const onPropertyPress = property => {
-    navigation.navigate('PropertyDetail', { property })
+  const onPropertyPress = id => {
+    navigation.navigate('PropertyDetail', { id })
   }
 
   return (
@@ -38,7 +38,7 @@ const PropertiesContainer = props => {
       <View style={styles.list}>
           <Loading isVisible={isLoading}/>
           { properties && properties.length > 0 ? 
-            properties.map(property => <PropertyCard style={styles.card} key={property.id} property={property} onPress={() => onPropertyPress(property)}/>) 
+            properties.map(property => <PropertyCard style={styles.card} key={property.id} property={property} onPress={() => onPropertyPress(property.id)}/>) 
           : null }
       </View>
     </ScrollView>

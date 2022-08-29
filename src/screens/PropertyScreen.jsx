@@ -11,12 +11,12 @@ const PropertyScreen = props => {
 
   const { style, route } = props
 
-  const { id, property } = route.params
+  const { id } = route.params
 
   return (
     <Screen>
       <View style={StyleSheet.flatten([styles.content, { backgroundColor: theme.white }, style])}>
-        <PropertyDetail style={styles.propertyDetail} data={property} />
+        <PropertyDetail style={styles.propertyDetail} id={id} />
       </View>
     </Screen>
   )

@@ -1,32 +1,57 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useApp } from '../../context/app-context'
 
 import propertyService from '../../services/property.service'
 
-const useProperty = (initialValue) => {
+const useProperty = (id) => {
   const app = useApp()
-  const [property, setProperty] = useState(initialValue)
+  const [property, setProperty] = useState({})
+  const [isFetching, setIsFetching] = useState(false)
 
-  const save = useCallback(() => {
-    app.setIsLoading(true)
-    propertyService.savePropertyChanges(property)
-      .then(result => {
-        setProperty(result.data)
+  const fetchProperty = useCallback(async () => {
+    try {
+      setIsFetching(true)
+      const result = await propertyService.getProperty(id)
+      setProperty(result.data)
+      setProperty(p => ({ ...p, images: p.images || [], videos: p.videos || [] }))
+      setIsFetching(false)
+    } catch (error) {
+      console.error(error)
+      app.showAlert({
+        type: 'error',
+        title: "Error",
+        body: error.message || "No se pudo obtener la propiedad.",
+        buttonText: "Ok"
       })
-      .catch(err => {
-        console.error(err)
-        app.showAlert({
-          type: 'error',
-          title: "Error",
-          body: err.message || "No se pudo guardar la propiedad.",
-          buttonText: "Ok"
-        })
-      }).finally(() => {
-        app.setIsLoading(false)
-      })
-  }, [])
+    } finally {
+      setIsFetching(false)
+    }
+  }, [id])
 
-  return { property, setProperty, save }
+  const save = useCallback(async () => {
+    try {
+      app.setIsLoading(true)
+      const result = await propertyService.savePropertyChanges(property)
+      console.log(result)
+      setProperty(result.data)
+    } catch(error) {
+      console.error(error)
+      app.showAlert({
+        type: 'error',
+        title: "Error",
+        body: error.message || "No se pudo guardar la propiedad.",
+        buttonText: "Ok"
+      })
+    } finally {
+      app.setIsLoading(false)
+    }
+  }, [property])
+
+  useEffect(() => {
+    fetchProperty()
+  } , [])
+
+  return { property, setProperty, isFetching, save }
 }
 
 export default useProperty
