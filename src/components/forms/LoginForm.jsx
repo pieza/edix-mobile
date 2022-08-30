@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   button: {
-    width: '80%',
+    width: '70%',
     alignSelf: 'center',
     marginTop: 50
   }

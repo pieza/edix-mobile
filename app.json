@@ -2,7 +2,7 @@
   "expo": {
     "name": "Edix Tours",
     "slug": "edix-tours",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "light",
@@ -26,16 +26,25 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "edix-tours"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d73837f4-b39a-4ccc-9c15-006acc5e6dd3"
+      }
     }
   }
 }
