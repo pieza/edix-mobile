@@ -27,7 +27,7 @@ const LoginForm = props => {
 
     app.setIsLoading(false)
 
-    if(!result || result.error) {
+    if (!result || result.error) {
       app.showAlert({
         type: 'error',
         title: "Error",
@@ -38,40 +38,45 @@ const LoginForm = props => {
       navigation.navigate('Tour')
     }
   }
-  
+
   return (
     <View
       {...props}
       style={StyleSheet.flatten([styles.container, { backgroundColor: theme.white }, style])}
     >
-      <Image style={styles.logo} source={require('../../../assets/images/logo_2.png')} />
+      <Image style={styles.logo} source={require('../../../assets/images/logo_2.png')} resizeMode='contain' />
 
       <Text style={styles.title} variant="h6" color={theme.success}>Acceso a miembros</Text>
 
-      <TextInput
-        style={styles.input}
-        label='Usuario'
-        variant='standard'
-        value={username}
-        onChangeText={text => {setUsername(text)}}
-        trailing={props => (
-          <FontAwesome name="user-circle" {...props} color={theme.text}  />
-        )}
-      />
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <TextInput
+          style={styles.input}
+          label='Usuario'
+          variant='standard'
+          value={username}
+          onChangeText={text => { setUsername(text) }}
+          trailing={props => (
+            <FontAwesome name="user-circle" {...props} color={theme.text} />
+          )}
+        />
 
-      <TextInput
-        style={styles.input}
-        label='Contraseña'
-        variant='standard'
-        secureTextEntry={true}
-        value={password}
-        onChangeText={text => {setPassword(text)}} 
-        trailing={props => (
-          <FontAwesome name="lock" {...props} color={theme.black}  />
-        )}
-      />
+        <TextInput
+          style={styles.input}
+          label='Contraseña'
+          variant='standard'
+          secureTextEntry={true}
+          value={password}
+          onChangeText={text => { setPassword(text) }}
+          trailing={props => (
+            <FontAwesome name="lock" {...props} color={theme.black} />
+          )}
+        />
+      </View>
 
-      <Button style={styles.button} icon="sign-in" color={theme.success} onPress={submit}>Ingresar</Button>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <Button style={styles.button} icon="sign-in" color={theme.success} onPress={submit}>Ingresar</Button>
+      </View>
+
     </View>
   )
 }
@@ -79,7 +84,7 @@ const LoginForm = props => {
 const styles = StyleSheet.create({
   container: {
     width: '90%',
-    height: '77%',
+    height: '80%',
     alignSelf: 'center',
     borderRadius: 10,
     shadowOffset: { width: 0, height: 8 },
@@ -90,7 +95,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   logo: {
-    width: 300,
+    width: '100%',
     height: 81,
     marginBottom: 15,
   },
@@ -103,8 +108,8 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '70%',
+    marginTop: 30,
     alignSelf: 'center',
-    marginTop: 50
   }
 })
 
