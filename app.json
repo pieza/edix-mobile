@@ -2,7 +2,7 @@
   "expo": {
     "name": "Edix Tours",
     "slug": "edix-tours",
-    "version": "0.1.15",
+    "version": "0.1.16",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "light",

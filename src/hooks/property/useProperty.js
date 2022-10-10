@@ -34,6 +34,12 @@ const useProperty = (id) => {
       const result = await propertyService.savePropertyChanges(property)
       console.log(result)
       setProperty(result.data)
+      app.showAlert({
+        type: 'success',
+        title: "Completado",
+        body: "Los cambios se guardaron correctamente.",
+        buttonText: "Ok"
+      })
     } catch(error) {
       console.error(error)
       app.showAlert({

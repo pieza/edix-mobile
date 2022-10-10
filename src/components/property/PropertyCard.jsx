@@ -2,10 +2,13 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Text } from '@react-native-material/core'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { useTheme } from '../../context/theme-context'
+import { useApp } from '../../context/app-context'
 
 import React from 'react'
 import CircleButton from '../buttons/CircleButton'
 import StringUtils from '../../utils/string.utils'
+import propertyService from '../../services/property.service'
+
 
 const PropertyTitle = props => {
   const theme = useTheme()
@@ -19,8 +22,21 @@ const PropertyTitle = props => {
 
 const PropertyCard = props => {
   const theme = useTheme()
+  const app = useApp()
 
   const { style, property } = props
+
+  const handleSummit = async () => {
+    app.setIsLoading(true)
+    await propertyService.setPropertyForTour(property.id, false)
+    app.showAlert({
+      type: 'success',
+      title: "Completado",
+      body: "La propiedad ha sido removida!",
+      buttonText: "Ok"
+    })
+    app.setIsLoading(false)
+  }
 
   return (
     <TouchableOpacity 
@@ -43,7 +59,7 @@ const PropertyCard = props => {
             <Text variant='body1' color={theme.text}>{property?.size} m2</Text>
           </View>
         </View>
-        <CircleButton style={styles.button} icon="check" fontColor={theme.success} border/>
+        <CircleButton style={styles.button} icon="check" fontColor={theme.success} border onPress={handleSummit}/>
     </TouchableOpacity>
   )
 }

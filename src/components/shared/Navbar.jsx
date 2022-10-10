@@ -1,7 +1,9 @@
+import React, { useState } from 'react'
 import { StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { useTheme } from '../../context/theme-context'
 import { useNavigation } from '@react-navigation/native'
 import { FontAwesome } from '@expo/vector-icons'
+import UserModal from '../modals/user/UserModal'
 
 export const Logo = props => {
 
@@ -24,6 +26,23 @@ export const GoBackButton = props => {
   )
 }
 
+export const UserButton = props => {
+  const theme = useTheme()
+  const [isVisible, setIsVisible] = useState(false)
+
+  return (
+    <>
+      <TouchableOpacity
+        {...props}
+        onPress={() => setIsVisible(true)}
+      >
+        <FontAwesome name="user-circle" size={35} color={theme.white} />
+      </TouchableOpacity>
+      <UserModal setIsVisible={setIsVisible} isVisible={isVisible} />
+    </>
+    
+  )
+}
 
 const styles = StyleSheet.create({
   image: {
