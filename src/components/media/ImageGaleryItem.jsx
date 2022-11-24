@@ -1,10 +1,20 @@
-import { StyleSheet, Image } from 'react-native'
+import { useState } from 'react'
+import { StyleSheet, Image, TouchableOpacity } from 'react-native'
+import ImagePreviewModal from '../modals/util/ImagePreviewModal'
 
 const ImageGaleryItem = props => {
-  const { style, uri } = props 
+  const { style, uri } = props
+
+  const [isPreviewVisible, setIsPreviewVisible] = useState(false)
 
   return (
-    <Image source={{ uri: uri }} style={StyleSheet.flatten([styles.image, style])} />
+    <>
+      <TouchableOpacity onPress={() => setIsPreviewVisible(true)}>
+        <Image source={{ uri: uri }} style={StyleSheet.flatten([styles.image, style])} />
+      </TouchableOpacity>
+      <ImagePreviewModal imageUri={uri} isVisible={isPreviewVisible} setIsVisible={setIsPreviewVisible} />
+    </>
+
   )
 }
 

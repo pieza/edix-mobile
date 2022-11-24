@@ -1,5 +1,6 @@
-import { StyleSheet, TouchableOpacity, View, ScrollView } from 'react-native'
+import { StyleSheet, TouchableOpacity, View, ScrollView, Linking } from 'react-native'
 import { useTheme } from '../../context/theme-context'
+import { showLocation } from 'react-native-map-link'
 
 import { Text } from '@react-native-material/core'
 import { FontAwesome5 } from '@expo/vector-icons'
@@ -22,16 +23,30 @@ const PropertyDetail = props => {
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false)
   const [isRawTextModalVisible, setIsRawTextModalVisible] = useState(false)
 
+  const handleLocationPress = () => {
+    Linking.openURL(property?.locationLink)
+    // showLocation({
+    //   latitude: property?.latitude,
+    //   longitude: property?.longitude,
+    //   title: property?.address,
+    //   dialogTitle: 'Abrir en',
+    //   dialogMessage: 'Abrir en',
+    //   cancelText: 'Cancelar'
+    // })
+  }
   return (
     <View style={StyleSheet.flatten([styles.container, { backgroundColor: theme.white }, style])}>
       <Loading isVisible={isFetching} />
-      { !isFetching && property ?
+      {!isFetching && property ?
         <>
           <ScrollView style={styles.body}>
-            <ItemCard style={styles.textCard} backgroundColor={theme.success}>
-              <FontAwesome5 style={styles.icon} name="map-marker-alt" size={20} color={theme.white} />
-              <Text variant="body1" color={theme.white}>{property?.province}, {property?.canton}, {property?.district}</Text>
-            </ItemCard>
+
+            <TouchableOpacity onPress={handleLocationPress}>
+              <ItemCard style={styles.textCard} backgroundColor={theme.success}>
+                <FontAwesome5 style={styles.icon} name="map-marker-alt" size={20} color={theme.white} />
+                <Text variant="body1" color={theme.white}>{property?.province}, {property?.canton}, {property?.district}</Text>
+              </ItemCard>
+            </TouchableOpacity>
 
             <ItemCard style={styles.textCard} backgroundColor={theme.white}>
               <FontAwesome5 style={styles.icon} name="calendar-alt" size={20} color={theme.text} />
@@ -73,7 +88,7 @@ const PropertyDetail = props => {
             <Button style={styles.button} color={theme.success} fontColor={theme.white} onPress={save}>Guardar</Button>
           </View>
         </>
-      : null}
+        : null}
       <TextEditorModal
         isVisible={isRawTextModalVisible}
         setIsVisible={setIsRawTextModalVisible}

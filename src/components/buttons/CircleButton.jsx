@@ -3,7 +3,6 @@ import { StyleSheet, TouchableOpacity } from 'react-native'
 import { useTheme } from '../../context/theme-context'
 
 import { FontAwesome } from '@expo/vector-icons'
-import { Text } from '@react-native-material/core'
 
 const CircleButton = props => {
   const theme = useTheme()

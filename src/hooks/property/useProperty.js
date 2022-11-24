@@ -32,8 +32,6 @@ const useProperty = (id) => {
     try {
       app.setIsLoading(true)
       const result = await propertyService.savePropertyChanges(property)
-      console.log(result)
-      setProperty(result.data)
       app.showAlert({
         type: 'success',
         title: "Completado",
