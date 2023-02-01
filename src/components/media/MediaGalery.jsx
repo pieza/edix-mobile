@@ -27,7 +27,6 @@ const MediaGalery = props => {
       app.setIsLoading(true)
       const result = await cloudinaryService.uploadFile(file)
       const url = result?.data?.secure_url
-      console.log(url)
       if(selectedMediaType === ImagePicker.MediaTypeOptions.Images) {
         setProperty(p => ({ ...p, images: [...p.images, { path: url}] }))
       } else {

@@ -38,7 +38,7 @@ const PropertiesContainer = props => {
       <View style={styles.list}>
           <Loading isVisible={isLoading}/>
           { properties && properties.length > 0 ? 
-            properties.map(property => <PropertyCard style={styles.card} key={property.id} property={property} onPress={() => onPropertyPress(property.id)}/>) 
+            properties.map(property => <PropertyCard style={styles.card} key={property.id} property={property} onPress={() => onPropertyPress(property.id)} onRefresh={onRefresh}/>) 
           : null }
       </View>
     </ScrollView>

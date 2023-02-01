@@ -33,8 +33,12 @@ class PropertyService {
   }
 
   async setPropertyForTour(propertyId, isOnTour) {
-    return await axios.post(`${this.url}/SetPropertyOnTours`, {propertyId, isOnTour}, {
-      headers: await this.getAuthHeaders()
+    return await axios.post(`${this.url}/SetPropertyOnTours`, {}, {
+      headers: await this.getAuthHeaders(),
+      params: { 
+        propertyId, 
+        isOnTour
+      }
     })
   }
 }

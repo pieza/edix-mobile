@@ -34,6 +34,7 @@ const PropertyDetail = props => {
     //   cancelText: 'Cancelar'
     // })
   }
+
   return (
     <View style={StyleSheet.flatten([styles.container, { backgroundColor: theme.white }, style])}>
       <Loading isVisible={isFetching} />
@@ -93,7 +94,8 @@ const PropertyDetail = props => {
         isVisible={isRawTextModalVisible}
         setIsVisible={setIsRawTextModalVisible}
         value={property?.rawText}
-        onSave={text => setProperty({ ...property, rawText: text })}
+        readonly
+        //onSave={text => setProperty({ ...property, rawText: text })}
       />
       <TextEditorModal
         isVisible={isNotesModalVisible}

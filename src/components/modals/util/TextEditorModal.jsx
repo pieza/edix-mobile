@@ -1,14 +1,15 @@
+import { useState, useEffect } from 'react'
 import { StyleSheet, Modal, View, ScrollView } from 'react-native'
 import { useTheme } from '../../../context/theme-context'
 
 import { Text, Button } from '@react-native-material/core'
 import MultilineTextInput from '../../inputs/MultilineTextInput'
-import { useState } from 'react'
+
 
 const TextEditorModal = props => {
   const theme = useTheme()
 
-  const { style, onSave, isVisible, setIsVisible, title, value } = props
+  const { style, onSave, isVisible, setIsVisible, title, value, readonly } = props
 
   const [text, setText] = useState(value)
 
@@ -17,6 +18,10 @@ const TextEditorModal = props => {
     setIsVisible(false)
   }
 
+  useEffect(() => {
+    setText(value)
+  }, [value])
+  
   return (
     <Modal
       animationType="fade"
@@ -30,7 +35,7 @@ const TextEditorModal = props => {
         <View style={StyleSheet.flatten([styles.content, { backgroundColor: theme.white }, style])}>
           <Text style={styles.input} variant="h6" color={theme.text}>{title || "Editar valor"}</Text>
 
-          <MultilineTextInput style={styles.input} value={text} onChangeText={setText}/>
+          <MultilineTextInput style={styles.input} value={text} onChangeText={setText} editable={!readonly}/>
 
           <View style={styles.footer}>
             <Button style={styles.button} color={theme.white} tintColor={theme.text} title="Cerrar" onPress={() => setIsVisible(false)}/>

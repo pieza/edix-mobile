@@ -24,18 +24,29 @@ const PropertyCard = props => {
   const theme = useTheme()
   const app = useApp()
 
-  const { style, property } = props
+  const { style, property, onRefresh } = props
 
   const handleSummit = async () => {
-    app.setIsLoading(true)
-    await propertyService.setPropertyForTour(property.id, false)
-    app.showAlert({
-      type: 'success',
-      title: "Completado",
-      body: "La propiedad ha sido removida!",
-      buttonText: "Ok"
-    })
-    app.setIsLoading(false)
+    try {
+      app.setIsLoading(true)
+      await propertyService.setPropertyForTour(property.id, false)
+      app.showAlert({
+        type: 'success',
+        title: "Completado",
+        body: "La propiedad ha sido removida!",
+        buttonText: "Ok"
+      })
+      if(onRefresh) onRefresh()
+    } catch (error) {
+      app.showAlert({
+        type: 'error',
+        title: "Error al remover",
+        body: `Detalles: ${error.message}`,
+        buttonText: "Ok"
+      })
+    } finally {
+      app.setIsLoading(false)
+    }
   }
 
   return (
